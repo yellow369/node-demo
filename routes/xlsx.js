@@ -56,5 +56,32 @@ router.post('/xlsx/stock', (req, res) => {
     res.send(list)
   })
 })
+// 测试
+router.get('/gaeaDict/all',(req,res) => {
+  res.send({code:'User.credentials.expired'})
+})
+
+router.get('/txt', (req, res) => {
+  
+  fs.readdir('./upload', (err, files) => {
+    if (err) {
+      console.log(err.message);
+      throw new Error('读取文件错误')
+    }
+    // console.log(files);
+    files.forEach((e) => {
+      if (/(?:(\.txt))/.test(e)) {
+        fs.readFile(`./upload/${e}`, 'utf-8',(err, dataStr) => {
+          if (err) {
+            console.log(err.message);
+          }
+          console.log('txt 内容');
+          res.send(dataStr)
+        })
+      }
+    })
+  })
+})
+
 
 module.exports = router

@@ -12,6 +12,14 @@ app.use(bodyParser.json()); //parse application/json
 app.use(timeout(15000));
 app.use(haltOnTimedout);
 
+app.all('*',function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:9528');//仅支持配置一个域名
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Content-Length, Authorization, Accept, X-Requested-With , yourHeaderFeild');
+  res.header('Access-Control-Allow-Methods', 'PUT, POST, GET, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Credentials',true)//允许客户端携带验证信息
+ 　next();　
+ });
+
 function haltOnTimedout(req, res, next){
    if (req.timedout) {
     console.log('404');
